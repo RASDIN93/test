@@ -1,6 +1,12 @@
-﻿# 라이브러리 불러오기
+import os
 import requests
+import telegram
 from bs4 import BeautifulSoup
+
+# 텔레그램 봇 생성
+access_token = os.environ["BOT_TOKEN"]
+token = access_token
+bot = telegram.Bot(token=token)
 
 # 검색 키워드
 search_word = '삼성전자'
@@ -15,4 +21,4 @@ search_result = soup.select_one('#news_result_list')
 news_links = search_result.select('.bx > .news_wrap > a')
 
 for news in news_links[:20]:
-    print(news.get_text())
+    bot.sendMessage(chat_id='token', text=link)
