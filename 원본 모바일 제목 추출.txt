@@ -1,24 +1,18 @@
-import os
-import requests
-import telegram
-from bs4 import BeautifulSoup
+import discord
 
-# 텔레그램 봇 생성
-access_token = os.environ["BOT_TOKEN"]
-token = access_token
-bot = telegram.Bot(token=token)
+client = discord.Client()
 
-# 검색 키워드
-search_word = '삼성전자'
+@client.event
+async def on_ready():
+    print("login")
+    print(client.user.name)
+    print(client.user.id)
+    print("----------------------------")
+    await client.change_presence(game=discord.Game(name='', type=1))
 
-# 해당 url의 html문서를 soup 객체로 저장
-url = f'https://m.search.naver.com/search.naver?where=m_news&sm=mtb_jum&query={search_word}'
-req = requests.get(url)
-html = req.text
-soup = BeautifulSoup(html, 'html.parser')
+@client.event
+async def on_message(message):
+    if message.content.starswith("hi"):
+        await client.send(message.channel, "HI")
 
-search_result = soup.select_one('#news_result_list')
-news_links = search_result.select('.bx > .news_wrap > a')
-
-for news in news_links[:20]:
-    bot.sendMessage(chat_id='token', text=link)
+client.run('NzEzOTkzOTk1NjI5MzYzMjAw.XsoNnA.QqMs1IyP4Rh6btg6upCEcyb4ONI')
